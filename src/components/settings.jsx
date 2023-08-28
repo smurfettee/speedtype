@@ -28,18 +28,18 @@ export default function Settings() {
                 <div className="w-1 h-6 bg-gray-500 rounded-xl"> </div>
                 <div className="flex items-center justify-center gap-2 duration-200">
                     {
-                        middleSetting == "time" && rightSetting.map(setting => (
-                            <div onClick={(e) => {e.preventDefault(); SetRightSubSetting(setting)}} className={`${(rightSubSetting == setting && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer duration-200`}>{setting}</div>
+                        middleSetting == "time" && rightSetting.map((setting, index) => (
+                            <div key={index} onClick={(e) => {e.preventDefault(); SetRightSubSetting(setting)}} className={`${(rightSubSetting == setting && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer duration-200`}>{setting}</div>
                         ))
                     }
                     {
-                        middleSetting == "words" && rightSetting.map(setting => (
-                            <div onClick={(e) => {e.preventDefault(); SetRightSubSetting(setting)}} className={`${(rightSubSetting == setting && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer duration-200`}>{setting}</div>
+                        middleSetting == "words" && rightSetting.map((setting, index) => (
+                            <div key={index} onClick={(e) => {e.preventDefault(); SetRightSubSetting(setting)}} className={`${(rightSubSetting == setting && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer duration-200`}>{setting}</div>
                         ))
                     }
                     {
-                        middleSetting == "quote" && rightSetting.map(setting => (
-                            <div onClick={(e) => {e.preventDefault(); SetRightSubSetting(setting)}} className={`${(rightSubSetting == setting && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer duration-200`}>{setting}</div>
+                        middleSetting == "quote" && rightSetting.map((setting, index) => (
+                            <div key={index} onClick={(e) => {e.preventDefault(); SetRightSubSetting(setting)}} className={`${(rightSubSetting == setting && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer duration-200`}>{setting}</div>
                         ))
                     }
                 </div>
