@@ -7,5 +7,5 @@ export default function MiddlePart() {
             <Settings/>
             <TypingArea/>
         </div>
-    );
+    )
 }
