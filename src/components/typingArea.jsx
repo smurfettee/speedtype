@@ -9,14 +9,15 @@ export default function TypingArea() {
     const [wordsDisplay, setWordsDisplay] = useState("");
     const [focused, setFocused] = useState(true);
     const [wordsTyped, setWordsTyped] = useState("");
-    const [translatedDistance, setTranslatedDistance] = useState({x: 0, y: 0});
 
     function getDist(x, y) {
-        const distX = y.offsetLeft - x.offsetLeft;
-        const distY = y.offsetTop - x.offsetTop;
-        //const distance = Math.sqrt(distX*distX + distY*distY);
-        //console.log(Math.floor(distance));
-        return {x: distX, y: distY};
+        try {
+            const distX = y.offsetLeft - x.offsetLeft;
+            const distY = y.offsetTop - x.offsetTop;
+            return {x: distX, y: distY};
+        } catch(e) {
+            return {x: 0, y: 0};
+        }
     }
 
     useEffect(() => {
@@ -34,13 +35,12 @@ export default function TypingArea() {
             const currentTypeIndex = wordsTyped.length-1;
             const caret = document.getElementById("caret");
             const distance = getDist(caret, elements[currentTypeIndex + 1]);
-            setTranslatedDistance({x: translatedDistance.x + distance.x, y: translatedDistance.y + distance.y});
-            console.log(translatedDistance)
+            caret.style.transform = `translate(${distance.x - 2}px, ${distance.y +  3}px)`;
 
             for (let i=0; i<wordsTyped.length; i++) {
-                if (wordsTyped[i] != elements[i].innerText) {
+                if (wordsTyped[i] !== elements[i].innerText) {
                     elements[i].style.color = RED;
-                } else if (wordsTyped[i] == elements[i].innerText) {
+                } else if (wordsTyped[i] === elements[i].innerText) {
                     elements[i].style.color = "white";
                 }
             }
@@ -51,22 +51,15 @@ export default function TypingArea() {
                 if (wordsTyped.length < i + 1) {
                     elements[i].style.color = GRAY;
                 }
-                /*
-                if (i == currentTypeIndex) {
-                    elements[i].style.textDecoration = "underline";
-                    elements[i].style.textDecorationColor = "#db2777";
-                } else {
-                    elements[i].style.textDecoration = "none";
-                }*/
-                
-                if (i == currentTypeIndex) {
-                    //console.log(i, currentTypeIndex);
-                    //elements[i].appendChild(caret);
-                    //caret.style.transform = `translate(${distance.x} ,${distance.y})`;
-                }
             }
+
         } catch (err) {
             console.log(err);
+        }
+
+        // Reload the words when reached at the end.
+        if (wordsTyped.length === wordsDisplay.length) {
+            HandleReload(null);
         }
         
     }, [wordsTyped]);
@@ -90,8 +83,8 @@ export default function TypingArea() {
     
     return (
         <div className="w-3/4 flex flex-col items-center transition-all m-10">
-            <div id="wordBox" className="text-2xl p-10" onClick={() => {ChangeFocus(true); document.getElementById("typeBox").focus()}}>
-                <div id="caret" className={"absolute inline-flex origin-top-left z-10 h-6 w-[3px] rounded-xl bg-red-200 transition-all"} ></div>
+            <div id="wordBox" className="text-2xl p-10 relative" onClick={() => {ChangeFocus(true); document.getElementById("typeBox").focus()}}>
+                <div id="caret" className={"absolute h-7 w-[3px] rounded-xl bg-pink-500 transition-all top-11 left-9 contrast-150"} ></div>
                 {
                     wordsDisplay.split("").map((char, index) => {
                         return <span key={index} className={'text-gray-500'}>{char}</span>

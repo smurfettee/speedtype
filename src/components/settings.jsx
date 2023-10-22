@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPunctuation } from "../store/settingsStore";
 
 export default function Settings() {
 
-    const [punctuation, setPunctuation] = useState(false);
+    const dispatch = useDispatch();
+    const {punctuation} = useSelector(state => state.settings);
+    // do this to the other settings too.
+
+    //const [punctuation, setPunctuation] = useState(false);
     const [numbers, setNumbers] = useState(false);
     const [middleSetting, setMiddleSetting] = useState("time");
     const [rightSetting, setRightSetting] = useState([15, 30, 60, 120]);
@@ -12,11 +18,13 @@ export default function Settings() {
         SetRightSubSetting(rightSetting[0]);
     }, [rightSetting]);
 
+    console.log(punctuation);
+
     return (
         <div className="w-min flex items-center">
             <div className={`flex items-center justify-center gap-2 m-10 text-gray-400 bg-gray-600 p-2 rounded-lg transition-all duration-200 ${middleSetting == "quote" ? "w-[38rem]" : "w-[30rem]"}`}>
                 <div className="flex items-center justify-center gap-2">
-                    <div onClick={(e) => {e.preventDefault(); setPunctuation(!punctuation);}} className={`${(punctuation && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer  duration-200 whitespace-nowrap`}>@ punctuation</div>
+                    <div onClick={(e) => {e.preventDefault(); dispatch(setPunctuation());}} className={`${(punctuation && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer  duration-200 whitespace-nowrap`}>@ punctuation</div>
                     <div onClick={(e) => {e.preventDefault(); setNumbers(!numbers);}} className={`${(numbers && "text-pink-600 ") || "hover:text-gray-200"} cursor-pointer  duration-200 whitespace-nowrap`}># numbers</div>
                 </div>
                 <div className="w-1 h-6 bg-gray-500 rounded-xl"> </div>
